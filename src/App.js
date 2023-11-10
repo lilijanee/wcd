@@ -1,13 +1,18 @@
+import './App.css';
+import Navbar from "./components/Navbar";
+import CreateAccount from "./Pages/CreateAccount";
+import { MaterialTailwindProvider } from "@material-tailwind/react";
+import { GoogleMapsProvider } from "@ubilabs/google-maps-react-hooks";
 export default function App() {
   
   return (
-    <div> 
-      <h1 className="text-3xl font-bold underline">
-      Hello Taka!
-      </h1>
-      <p>
-        I'm a birb boi
-      </p>
+    <div className="App">
+      <Router>
+        <Routes>
+          <Route path="/" element={<Navbar />} />
+          <Route path="/signup" element={<CreateAccount />} />
+        </Routes>
+      </Router>
     </div>
   )
 }
