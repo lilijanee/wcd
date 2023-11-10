@@ -1,8 +1,12 @@
 export default function App() {
   return (
-    <h1 className="text-3xl font-bold underline">
+    <div> 
+      <h1 className="text-3xl font-bold underline">
       Hello Taka!
-      Birb
-    </h1>
+      </h1>
+      <p>
+        I'm a birb boi
+      </p>
+    </div>
   )
 }
