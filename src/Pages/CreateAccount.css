@@ -1,4 +1,36 @@
 .kuy{
-    width: 500px;
-    height: auto;
+    width: 100%;
+    
+    object-position: 20% ;
 }
+.no-spacing {
+  margin: 0;
+  padding: 0;
+}
+/* body{
+    background-image: "background.png";
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+} */
+h1 {
+    text-align: center;
+   
+    flex-shrink: 0;
+    color: #38A6B5;
+    text-align: center;
+    font-family: Inter;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+h2 {
+    text-align: center;
+}
+h3 {
+    text-align: center;
+}
+  
+        
+  
