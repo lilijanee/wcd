@@ -7,6 +7,7 @@ export default function App() {
   
   return (
     <div className="App">
+      <main></main>
       <Router>
         <Routes>
           <Route path="/" element={<Navbar />} />
