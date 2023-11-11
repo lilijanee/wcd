@@ -4,14 +4,11 @@ import './index.css';
 // import App from './App';
 import CreateAccount from './Pages/CreateAccount';
 import reportWebVitals from './reportWebVitals';
-import Navbar from './components/Navbar';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-  <div style={{ display: 'grid', gridTemplateColumns: 'fixed', gap: '0' }}>
     <CreateAccount />
-  </div>
   </React.StrictMode>
 );
 
