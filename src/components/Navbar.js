@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "../../src/Logo.png";
+import Logo from "../image/logo.svg";
 
 export default function Navbar({ fixed }) {
   //ok until 360 below
