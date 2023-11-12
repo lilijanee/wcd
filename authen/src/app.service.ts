@@ -5,9 +5,7 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class AppService {
-  create(arg0: { username: string; tel: string; password: string; }) {
-    throw new Error('Method not implemented.');
-  }
+
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>
   ){
@@ -16,5 +14,9 @@ export class AppService {
 
   async register(data: any): Promise<User> {
     return this.userRepository.save(data);
+  }
+
+  async findOne(condition: any): Promise<User> {
+    return this.userRepository.findOne(condition);
   }
 }
