@@ -17,7 +17,9 @@ import { User } from "./user.entity"
       database: 'wcd',
       entities: [User],
       synchronize: true,
-    }),],
+    }),
+    TypeOrmModule.forFeature([User])
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
