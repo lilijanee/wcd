@@ -24,7 +24,7 @@ function popup({ closePopup }) {
          </div>
          <div className='mt-4 flex items-center'>
             <DollarSign color="#767676" size={24} strokeWidth={2.5} padd />  
-            <h1 className="text-lg flex items-left pl-2">(?) Baht</h1>
+            <h1 className="text-lg flex items-left pl-2">0.5 Dollar</h1>
          </div>
       </div>
 
