@@ -133,7 +133,7 @@ const MainMap = () => {
       originRef.current = startRef.current;
     } else {
       originRef.current = centerRef.current;
-      originName.current = "Your current location";
+      originName.current = "My current location";
     }
   };
   const startNavigation = () => {
@@ -215,12 +215,17 @@ const MainMap = () => {
   }
 
   return (
-    <GoogleMap mapContainerStyle={mapContainerStyle} zoom={16} center={center} disableDefaultUI={"true"} onLoad={handleLoad}>
+    <GoogleMap
+  mapContainerStyle={mapContainerStyle}
+  zoom={16}
+  center={center}
+  disableDefaultUI={"true"}
+  onLoad={handleLoad}>
       <center>
         {showStartNav ? (
-          <div className="input-container relative w-5/12 p-4 top-2" style={{ zIndex: "100", backgroundColor: "white", borderRadius: "10px" }}>
-            <div className="input-box mt-5 relative items-start" style={{ maxWidth: "12rem", width: "100%" }}>
-              <div className="Start-container relative flex items-center justify-start w-fit">
+          <div className="input-container relative p-4 top-2 w-fit " style={{ zIndex: "100", backgroundColor: "white", borderRadius: "10px" }}>
+            <div className="input-box mt-5 relative items-start" style={{ maxWidth: "18rem", width: "100%" }}>
+              <div className="Start-container relative flex items-center justify-start w-100">
                 <label>
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                     <path
@@ -268,7 +273,7 @@ const MainMap = () => {
       </center>
       {showDetail && naviInformation.length > 0 ? (
         <div
-          className="Routes-detail relative h-3/12 w-4/12 md:w-3/12 rounded-md items-center top-2 left-2 p-3"
+          className="Routes-detail relative h-3/12 w-5/12 md:w-6/12 rounded-md items-center top-2 left-2 p-3 "
           id="Routes-detail"
           style={{zIndex: "10000", background:"rgba(256, 256, 256, 0.97)", boxShadow:"0px 4px 4px 0px rgba(0, 0, 0, 0.25)"}}
         >
