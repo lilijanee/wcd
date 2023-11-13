@@ -4,12 +4,19 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from "@nestjs/jwt";
 import { Response, Request } from 'express';
 
-@Controller('api')
+@Controller()
 export class AppController {
   constructor(
     private readonly appService: AppService,
     private jwtService: JwtService
     ) {}
+
+  @Get()
+  hello(){
+    return {
+      message : "Hello Taka"
+    }
+  }
 
   @Post('register')
   async register(
@@ -17,8 +24,8 @@ export class AppController {
     @Body('tel') tel: string,
     @Body('password') password: string
   ){
+    
     const hashedPassword = await bcrypt.hash(password, 12);
-
     const user = await this.appService.register({
       username,
       tel,
@@ -50,11 +57,15 @@ export class AppController {
 
     const jwt = await this.jwtService.signAsync({id: user.id});
 
-    response.cookie('jwt', jwt, {httpOnly: true});
+    /*response.cookie('jwt', jwt, {httpOnly: true});
 
     return {
       message: 'success'
-    };
+    };*/
+
+    return {
+      token : jwt.toString()
+    }
   }
 
   @Get('user')

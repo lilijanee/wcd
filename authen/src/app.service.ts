@@ -13,10 +13,11 @@ export class AppService {
   }
 
   async register(data: any): Promise<User> {
+    console.log("run register service");
     return this.userRepository.save(data);
   }
 
   async findOne(condition: any): Promise<User> {
-    return this.userRepository.findOne(condition);
+    return this.userRepository.findOneBy(condition);
   }
 }
