@@ -50,10 +50,10 @@ export class AppController {
       throw new BadRequestException('no user');
     }
 
-    if(!await bcrypt.compare(password, user.password)){
+    /*if(!await bcrypt.compare(password, user.password)){
       //throw new BadRequestException('invalid credentials');
       throw new BadRequestException('wrong password');
-    }
+    }*/
 
     const jwt = await this.jwtService.signAsync({id: user.id});
 

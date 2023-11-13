@@ -18,6 +18,7 @@ export class AppService {
   }
 
   async findOne(condition: any): Promise<User> {
+    console.log("run login service");
     return this.userRepository.findOneBy(condition);
   }
 }
