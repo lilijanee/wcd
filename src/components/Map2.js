@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import Popup from "./popup";
 import {
   GoogleMap,
   LoadScript,
@@ -10,7 +11,6 @@ const libraries = ["places"];
 const mapContainerStyle = {
   width: "100vw",
   height: "100vh",
-  disableDefaultUI: true,
 };
 
 
@@ -24,13 +24,26 @@ const MainMap = () => {
   const defaultCenter = { lat: 13.736717, lng: 100.523186 };
   const [center, setCenter] = useState(defaultCenter);
   const [mapInstance, setMapInstance] = useState(null);
+  
   const [startPosition,setStartPosition] = useState(null);
   const [endPosition,setEndPosition] = useState(null);
   const [destPosition,setdestPosition] = useState(null);
   const centerRef = useRef(defaultCenter);
   const startRef = useRef(defaultCenter);
   const originRef = useRef(defaultCenter);
+  const destRef = useRef(defaultCenter);
 
+  const [showPopup, setShowPopup] = useState(false);
+  const pop = () => {
+    setShowPopup(!showPopup);
+  };
+  const closePopup = () => {
+    setShowPopup(false);
+  };
+  const confirm = () => {
+    setShowPopup(false);
+    startNavigation();
+  };
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -55,7 +68,7 @@ const MainMap = () => {
     // Set the center and zoom of the map
     map.setCenter(center);
     map.setZoom(16);
-    
+    setMapInstance(map);
 
     const defaultPosition = { lat: 13.736717, lng: 100.523186 };
     // Create a new marker at the current geolocation.
@@ -116,6 +129,7 @@ const MainMap = () => {
   
     endAutocomplete.addListener("place_changed", (event) => {
       const place = endAutocomplete.getPlace();
+      destRef.current = { lat: place.geometry.location.lat(), lng:place.geometry.location.lng() };
       setEndPosition(place.formatted_address);
       setdestPosition(place.name);
     })
@@ -130,7 +144,6 @@ const MainMap = () => {
     
   });
   };
-  
   const startNavigation = () => {
     
     const directionsService = new window.google.maps.DirectionsService();
@@ -144,7 +157,9 @@ const MainMap = () => {
     } else {
       originRef.current = centerRef.current;
     }
-  
+    
+    //window.location.href = `https://www.google.com/maps/dir/?api=1&origin=${originRef.current.lat},${originRef.current.lng}&destination=${destRef.current.lat},${destRef.current.lng}&travelmode=transit;`;
+
     directionsService.route(
       {
         origin: originRef.current,
@@ -180,8 +195,7 @@ const MainMap = () => {
       mapContainerStyle={mapContainerStyle}
       zoom={16}
       center={center}
-      mapTypeControl={false}
-      streetViewControl={false}
+      disableDefaultUI={"true"} 
       onLoad={handleLoad}
     >
       <center>
@@ -189,7 +203,7 @@ const MainMap = () => {
           className="input-container relative w-5/12 p-4"
           style={{ zIndex: "100", backgroundColor: "white", borderRadius: "10px" }}
         >
-          <div className="input-box w-8/12 mt-5 relative items-start">
+          <div className="input-box mt-5 relative items-start" style={{width:"12rem"}}>
             <div className="Start-container relative flex items-center justify-start w-fit">
             <label>
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -212,16 +226,18 @@ const MainMap = () => {
           </div>
 
           {/* Use a unique ID for the button */}
-          <button className="relative flex flex-nowrap m-3 p-2" style={{backgroundColor:"#D2EFF3", borderRadius:"6px"}} id="startNavigationButton" onClick={startNavigation}>Start Navigation</button>
+          <button className="relative flex flex-nowrap m-3 p-2" 
+          style={{backgroundColor:"#D2EFF3", borderRadius:"6px",zIndex: 1}} 
+          id="startNavigationButton" 
+          onClick={() => {
+            //startNavigation();
+            pop()
+            }}>Start Navigation</button>
+            {showPopup && <Popup  closePopup={closePopup} confirm={confirm}/>}
         </div>
-
-        <div className={isPopupVisible ? '' : 'hide'}>
-        {isPopupVisible && <Popup />}
-      </div>
+        
+        
       </center>
-      <div id="sidebar" style={{ zIndex: "10000", backgroundColor: "white", borderRadius: "10px"}}>
-      Navigation
-      </div>
     </GoogleMap>
   );
 };
