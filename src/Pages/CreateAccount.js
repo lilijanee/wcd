@@ -22,7 +22,7 @@ export default function CreateAccount() {
     username: "",
     password: "",
     confirmPassword: "",
-    phoneNumber: "",
+    tel: "",
   });
   const handleInputChange = (field) => (event) => {
     const value = event.target.value;
@@ -31,7 +31,7 @@ export default function CreateAccount() {
 
   const handleSubmit =  () =>{
     axios.post('/register',
-        JSON.stringify(formData),
+        formData,
         { headers: { /* Authorization: 'Bearer ' + token */ }, timeout: 10 * 1000 }
     ).then((response) => {
         navigate('/main')
@@ -177,8 +177,8 @@ export default function CreateAccount() {
         <TextField
           type="text"
           id="tel"
-          value={formData.phoneNumber}
-          onChange={handleInputChange("phoneNumber")}
+          value={formData.tel}
+          onChange={handleInputChange("tel")}
           sx={{
             "& .MuiOutlinedInput-root": {
               borderRadius: "0.375rem", // Equivalent to Tailwind's rounded
