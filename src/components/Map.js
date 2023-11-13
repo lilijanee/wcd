@@ -214,6 +214,10 @@ const MainMap = () => {
           {/* Use a unique ID for the button */}
           <button className="relative flex flex-nowrap m-3 p-2" style={{backgroundColor:"#D2EFF3", borderRadius:"6px"}} id="startNavigationButton" onClick={startNavigation}>Start Navigation</button>
         </div>
+
+        <div className={isPopupVisible ? '' : 'hide'}>
+        {isPopupVisible && <Popup />}
+      </div>
       </center>
       <div id="sidebar" style={{ zIndex: "10000", backgroundColor: "white", borderRadius: "10px"}}>
       Navigation

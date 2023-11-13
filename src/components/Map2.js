@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import Popup from "./popup";
 import {
   GoogleMap,
   LoadScript,
@@ -23,6 +24,7 @@ const MainMap = () => {
   const defaultCenter = { lat: 13.736717, lng: 100.523186 };
   const [center, setCenter] = useState(defaultCenter);
   const [mapInstance, setMapInstance] = useState(null);
+  
   const [startPosition,setStartPosition] = useState(null);
   const [endPosition,setEndPosition] = useState(null);
   const [destPosition,setdestPosition] = useState(null);
@@ -30,6 +32,7 @@ const MainMap = () => {
   const startRef = useRef(defaultCenter);
   const originRef = useRef(defaultCenter);
   const destRef = useRef(defaultCenter);
+
 
 
   useEffect(() => {
@@ -145,8 +148,8 @@ const MainMap = () => {
     } else {
       originRef.current = centerRef.current;
     }
-
-    window.location.href = `https://www.google.com/maps/dir/?api=1&origin=${originRef.current.lat},${originRef.current.lng}&destination=${destRef.current.lat},${destRef.current.lng}`;
+    
+    //window.location.href = `https://www.google.com/maps/dir/?api=1&origin=${originRef.current.lat},${originRef.current.lng}&destination=${destRef.current.lat},${destRef.current.lng}&travelmode=transit;`;
 
     directionsService.route(
       {
@@ -214,12 +217,16 @@ const MainMap = () => {
           </div>
 
           {/* Use a unique ID for the button */}
-          <button className="relative flex flex-nowrap m-3 p-2" style={{backgroundColor:"#D2EFF3", borderRadius:"6px"}} id="startNavigationButton" onClick={startNavigation}>Start Navigation</button>
+          <button className="relative flex flex-nowrap m-3 p-2" 
+          style={{backgroundColor:"#D2EFF3", borderRadius:"6px"}} 
+          id="startNavigationButton" 
+          onClick={() => {
+            startNavigation();
+            }}>Start Navigation</button>
         </div>
+        
+        
       </center>
-      <div id="sidebar" style={{ zIndex: "10000", backgroundColor: "white", borderRadius: "10px"}}>
-      Navigation
-      </div>
     </GoogleMap>
   );
 };

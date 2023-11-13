@@ -1,8 +1,8 @@
-import React from 'react'
-import "./popup.css";
+import React,{ useState, useEffect, useRef } from 'react'
 import { Crosshair, DollarSign, MapPin } from 'react-feather';
 
-function popup({ closePopup }) {
+function Popup({ closePopup }) {
+   const [paymentSuccess,setPaymentSuccess] = useState(false);
   return (
    <div className='popupBackround fixed inset-0 flex items-center justify-center bg-[#FDFAF4]' >
    <div className='popupContainer p-6 rounded-xl shadow-xl shadow-[#868686] bg-[#FFF8ED]'>
@@ -31,7 +31,9 @@ function popup({ closePopup }) {
       <div className='footer text-xl inset-0 mt-6 flex justify-center items-center'>
          <button onClick={() => closePopup(false)} className="mr-2 w-full px-6 py-1 text-black bg-[#FF9F9F] rounded">
             Cancel</button>
-         <button className="px-6 py-1 text-black bg-[#BCD7DA] rounded w-full">Confirm</button>
+            <button className="px-6 py-1 text-black bg-[#BCD7DA] rounded w-full" onClick={() => setPaymentSuccess(true)}>Confirm</button>
+
+
       </div>
       <div className='anotherfooter mt-2 flex justify-center text-[#868686]'>
          <p>Fee will included to 088-888-8888</p>
@@ -61,4 +63,4 @@ function popup({ closePopup }) {
   
 }
 
-export default popup
+export default Popup;
