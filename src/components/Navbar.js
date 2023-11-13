@@ -5,7 +5,7 @@ export default function Navbar({ fixed }) {
 
   //ok until 360 below
   return (
-    <nav className="relative flex flex-nowrap items-center justify-around px-2 py-3 mb-3" style={{ background: '#D2EFF3',boxShadow:" 0px 2px 4px 0px rgba(0, 0, 0, 0.25)" }}>
+    <nav className="sticky top-0 flex flex-nowrap items-center justify-around px-2 py-3 mb-3" style={{ background: '#D2EFF3',boxShadow:" 0px 2px 4px 0px rgba(0, 0, 0, 0.25)", zIndex:"1000000" }}>
         <div className="container flex  w-full relative flex-nowrap justify-start items-center ml-2">
             <img alt="Logo" src={Logo} className="w-12 h-12"style={{display:"block"}}/>
             <div className="name-container w-fit relative flex flex-col justify-start ml-0">
