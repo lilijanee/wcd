@@ -1,7 +1,7 @@
 import React,{ useState, useEffect, useRef } from 'react'
 import { Crosshair, DollarSign, MapPin } from 'react-feather';
 
-function Popup({ closePopup }) {
+function Popup({ closePopup,confirm }) {
    const [paymentSuccess,setPaymentSuccess] = useState(false);
   return (
    <div className='popupBackround fixed inset-0 flex items-center justify-center bg-[#FDFAF4]' >
@@ -29,9 +29,12 @@ function Popup({ closePopup }) {
       </div>
 
       <div className='footer text-xl inset-0 mt-6 flex justify-center items-center'>
-         <button onClick={() => closePopup(false)} className="mr-2 w-full px-6 py-1 text-black bg-[#FF9F9F] rounded">
+         <button onClick={() => closePopup()} className="mr-2 w-full px-6 py-1 text-black bg-[#FF9F9F] rounded">
             Cancel</button>
-            <button className="px-6 py-1 text-black bg-[#BCD7DA] rounded w-full" onClick={() => setPaymentSuccess(true)}>Confirm</button>
+            <button className="px-6 py-1 text-black bg-[#BCD7DA] rounded w-full" 
+            onClick={() => confirm()}>
+               Confirm
+               </button>
 
 
       </div>

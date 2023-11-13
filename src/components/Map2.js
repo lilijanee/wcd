@@ -33,7 +33,17 @@ const MainMap = () => {
   const originRef = useRef(defaultCenter);
   const destRef = useRef(defaultCenter);
 
-
+  const [showPopup, setShowPopup] = useState(false);
+  const pop = () => {
+    setShowPopup(!showPopup);
+  };
+  const closePopup = () => {
+    setShowPopup(false);
+  };
+  const confirm = () => {
+    setShowPopup(false);
+    startNavigation();
+  };
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -134,7 +144,6 @@ const MainMap = () => {
     
   });
   };
-  
   const startNavigation = () => {
     
     const directionsService = new window.google.maps.DirectionsService();
@@ -194,7 +203,7 @@ const MainMap = () => {
           className="input-container relative w-5/12 p-4"
           style={{ zIndex: "100", backgroundColor: "white", borderRadius: "10px" }}
         >
-          <div className="input-box w-60 mt-5 relative items-start">
+          <div className="input-box mt-5 relative items-start" style={{width:"12rem"}}>
             <div className="Start-container relative flex items-center justify-start w-fit">
             <label>
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -218,11 +227,13 @@ const MainMap = () => {
 
           {/* Use a unique ID for the button */}
           <button className="relative flex flex-nowrap m-3 p-2" 
-          style={{backgroundColor:"#D2EFF3", borderRadius:"6px"}} 
+          style={{backgroundColor:"#D2EFF3", borderRadius:"6px",zIndex: 1}} 
           id="startNavigationButton" 
           onClick={() => {
-            startNavigation();
+            //startNavigation();
+            pop()
             }}>Start Navigation</button>
+            {showPopup && <Popup  closePopup={closePopup} confirm={confirm}/>}
         </div>
         
         

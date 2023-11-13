@@ -1,7 +1,8 @@
 import React from "react";
 import Logo from "../image/Logo.png";
-
+import { Link } from 'react-router-dom'
 export default function Navbar({ fixed }) {
+
   //ok until 360 below
   return (
     <nav className="relative flex flex-nowrap items-center justify-around px-2 py-3 mb-3" style={{ background: '#D2EFF3',boxShadow:" 0px 2px 4px 0px rgba(0, 0, 0, 0.25)" }}>
@@ -18,7 +19,7 @@ export default function Navbar({ fixed }) {
             </div>
         </div>
         <div className="button-container w-fit relative flex flex-nowrap mr-1 justify-end items-center">
-            <button style={{background:"rgba(188, 215, 218, 0.87)" , borderRadius:"0.25rem" , width:"4.5rem" , height:"1.5rem"}}>Log Out</button>
+            <button style={{background:"rgba(188, 215, 218, 0.87)" , borderRadius:"0.25rem" , width:"4.5rem" , height:"1.5rem"}}><Link to="/signout">Log out</Link></button>
         </div>
     </nav>
 
