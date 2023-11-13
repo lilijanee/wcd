@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import Popup from "./popup";
 import {
   GoogleMap,
   LoadScript,
@@ -10,7 +11,6 @@ const libraries = ["places"];
 const mapContainerStyle = {
   width: "100vw",
   height: "100vh",
-  disableDefaultUI: true,
 };
 
 
@@ -24,13 +24,35 @@ const MainMap = () => {
   const defaultCenter = { lat: 13.736717, lng: 100.523186 };
   const [center, setCenter] = useState(defaultCenter);
   const [mapInstance, setMapInstance] = useState(null);
+  
   const [startPosition,setStartPosition] = useState(null);
   const [endPosition,setEndPosition] = useState(null);
   const [destPosition,setdestPosition] = useState(null);
+  const [showDetail,setShowDetail] = useState(false);
   const centerRef = useRef(defaultCenter);
   const startRef = useRef(defaultCenter);
+  const originName = useRef(null);
   const originRef = useRef(defaultCenter);
+  const destName = useRef(null)
+  const destRef = useRef(defaultCenter);
 
+  const instructions = [];
+  const duration = [];
+  const travelMode = [];
+  const Line = [];
+  const arrival = [];
+
+  const [showPopup, setShowPopup] = useState(false);
+  const pop = () => {
+    setShowPopup(!showPopup);
+  };
+  const closePopup = () => {
+    setShowPopup(false);
+  };
+  const confirm = () => {
+    setShowPopup(false);
+    startNavigation();
+  };
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -55,7 +77,7 @@ const MainMap = () => {
     // Set the center and zoom of the map
     map.setCenter(center);
     map.setZoom(16);
-    
+    setMapInstance(map);
 
     const defaultPosition = { lat: 13.736717, lng: 100.523186 };
     // Create a new marker at the current geolocation.
@@ -93,6 +115,7 @@ const MainMap = () => {
   
     startAutocomplete.addListener("place_changed", (event) => {
       const place = startAutocomplete.getPlace();
+      originRef.current = place.name;
       startRef.current = { lat: place.geometry.location.lat(), lng:place.geometry.location.lng() };
       console.log("startRef current :",startRef.current.lat,startRef.current.lng)
       
@@ -116,6 +139,8 @@ const MainMap = () => {
   
     endAutocomplete.addListener("place_changed", (event) => {
       const place = endAutocomplete.getPlace();
+      destRef.current = { lat: place.geometry.location.lat(), lng:place.geometry.location.lng() };
+      destName.current = place.name;
       setEndPosition(place.formatted_address);
       setdestPosition(place.name);
     })
@@ -130,29 +155,66 @@ const MainMap = () => {
     
   });
   };
-  
   const startNavigation = () => {
     
     const directionsService = new window.google.maps.DirectionsService();
     const directionsRenderer = new window.google.maps.DirectionsRenderer();
     directionsRenderer.setDirections(null);
     directionsRenderer.setMap(null);
+    originRef.current.value = "";
+    destRef.current.value = "";
     const startValue = document.getElementById("Start").value;
 
     if (startValue) {
       originRef.current = startRef.current;
     } else {
       originRef.current = centerRef.current;
+      originName.current = "Your current location"
     }
-  
+    
+    //window.location.href = `https://www.google.com/maps/dir/?api=1&origin=${originRef.current.lat},${originRef.current.lng}&destination=${destRef.current.lat},${destRef.current.lng}&travelmode=transit;`;
+
     directionsService.route(
       {
         origin: originRef.current,
-        destination: destPosition, // Use destPosition instead of place.name
+        destination: destRef.current, // Use destPosition instead of place.name
         travelMode: window.google.maps.TravelMode.TRANSIT,
+        unitSystem: window.google.maps.UnitSystem.METRIC,
+        optimizeWaypoints: true,
+        provideRouteAlternatives: false,
       },
       (result, status) => {
+        console.log("result is",result)
+        console.log("result routes is",result.routes[0].legs)
+        result.routes[0].legs.forEach((leg) => {
+          leg.steps.forEach((step) => {
+            const ins = step.instructions;
+            instructions.push(ins);
+            const durationTime = step.duration.text;
+            duration.push(durationTime);
+            const tmode = step.travel_mode;
+            travelMode.push(tmode);
+            const transit = step.transit;
+            console.log(ins,durationTime,tmode);
+
+            if(transit != null){
+              const arrive = transit.arrival_stop;
+              arrival.push(arrive);
+              const line_name = transit.line.name;
+              Line.push(line_name);
+              console.log(arrival,line_name);
+            }else{
+              const arrive = null;
+              arrival.push(arrive);
+              const line_name = null;
+              Line.push(line_name);
+              console.log(arrival,line_name);
+            }
+          })
+        })
+        
         if (status === window.google.maps.DirectionsStatus.OK) {
+          setShowDetail(true);
           console.log("direction function is successed");
           directionsRenderer.setDirections(result);
           directionsRenderer.setMap(mapInstance);
@@ -161,11 +223,18 @@ const MainMap = () => {
           console.error("Error calculating directions:", status);
         }
       }
+      
     );
+    console.log(instructions);
+    console.log(duration);
+    console.log(travelMode);
+    console.log(arrival);
+    console.log(Line);
+
+   
   };
   
-  // Call directionsRenderer.setPanel() outside of the startNavigation function
-  ;
+  
 
   if (loadError) {
     return <div>Error loading maps</div>;
@@ -180,8 +249,7 @@ const MainMap = () => {
       mapContainerStyle={mapContainerStyle}
       zoom={16}
       center={center}
-      mapTypeControl={false}
-      streetViewControl={false}
+      disableDefaultUI={"true"} 
       onLoad={handleLoad}
     >
       <center>
@@ -189,7 +257,7 @@ const MainMap = () => {
           className="input-container relative w-5/12 p-4"
           style={{ zIndex: "100", backgroundColor: "white", borderRadius: "10px" }}
         >
-          <div className="input-box w-8/12 mt-5 relative items-start">
+          <div className="input-box mt-5 relative items-start" style={{width:"12rem"}}>
             <div className="Start-container relative flex items-center justify-start w-fit">
             <label>
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -212,16 +280,22 @@ const MainMap = () => {
           </div>
 
           {/* Use a unique ID for the button */}
-          <button className="relative flex flex-nowrap m-3 p-2" style={{backgroundColor:"#D2EFF3", borderRadius:"6px"}} id="startNavigationButton" onClick={startNavigation}>Start Navigation</button>
+          <button className="relative flex flex-nowrap m-3 p-2" 
+          style={{backgroundColor:"#D2EFF3", borderRadius:"6px",zIndex: 1}} 
+          id="startNavigationButton" 
+          onClick={() => {
+            //startNavigation();
+            pop()
+            }}>Start Navigation</button>
+            {showPopup && <Popup  closePopup={closePopup} confirm={confirm} start={originName.current} destination={destName.current}/>}
         </div>
-
-        <div className={isPopupVisible ? '' : 'hide'}>
-        {isPopupVisible && <Popup />}
-      </div>
       </center>
-      <div id="sidebar" style={{ zIndex: "10000", backgroundColor: "white", borderRadius: "10px"}}>
-      Navigation
-      </div>
+      {showDetail && 
+        <div className="Routes-detail relative bottom-0 left-0 h-3/12 w-3/12" id="Routes-detail" style={{backgroundColor:"white", zIndex:"10000"}}>
+          <h1>Navigation</h1>
+          
+        </div>
+      }
     </GoogleMap>
   );
 };

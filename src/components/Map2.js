@@ -150,6 +150,8 @@ const MainMap = () => {
     const directionsRenderer = new window.google.maps.DirectionsRenderer();
     directionsRenderer.setDirections(null);
     directionsRenderer.setMap(null);
+    originRef.current.value = "";
+    destRef.current.value = "";
     const startValue = document.getElementById("Start").value;
 
     if (startValue) {
@@ -163,8 +165,11 @@ const MainMap = () => {
     directionsService.route(
       {
         origin: originRef.current,
-        destination: destPosition, // Use destPosition instead of place.name
+        destination: destRef.current, // Use destPosition instead of place.name
         travelMode: window.google.maps.TravelMode.TRANSIT,
+        unitSystem: window.google.maps.UnitSystem.METRIC,
+        optimizeWaypoints: true,
+        provideRouteAlternatives: false,
       },
       (result, status) => {
         if (status === window.google.maps.DirectionsStatus.OK) {

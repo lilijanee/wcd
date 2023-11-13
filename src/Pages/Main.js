@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import Navbar from "../components/Navbar";
-import MainMap from "../components/Map2";
+import MainMap from "../components/Map";
 
 
 

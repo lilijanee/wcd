@@ -1,10 +1,10 @@
 import React,{ useState, useEffect, useRef } from 'react'
 import { Crosshair, DollarSign, MapPin } from 'react-feather';
 
-function Popup({ closePopup,confirm }) {
+function Popup({ closePopup,confirm,start,destination}) {
    const [paymentSuccess,setPaymentSuccess] = useState(false);
   return (
-   <div className='popupBackround fixed inset-0 flex items-center justify-center bg-[#FDFAF4]' >
+   <div className='popupBackround fixed inset-0 flex items-center justify-center bg-[#FDFAF4]' style={{zIndex:"10000"}} >
    <div className='popupContainer p-6 rounded-xl shadow-xl shadow-[#868686] bg-[#FFF8ED]'>
       {/* <div className='titleCloseBtn p-1 justify-end w-full'>
          <button onClick={() => closePopup(false)} className=" text-gray flex "> x </button>
@@ -16,11 +16,11 @@ function Popup({ closePopup,confirm }) {
       <div className='body text-[#0f0f0f] mt-4' >
          <div className='flex items-center'>
             <Crosshair color="#6CBFCA" size={24} strokeWidth={2.5} padd />
-            <h1 className="text-lg flex items-left pl-2">(Start Location)</h1>    
+            <h1 className="text-lg flex items-left pl-2">{start}</h1>    
          </div>  
          <div className='mt-4 flex items-center'>
             <MapPin color="#BF6A69" size={24} strokeWidth={2.5} padd />
-            <h1 className="text-lg flex items-left pl-2">(Destination)</h1>
+            <h1 className="text-lg flex items-left pl-2">{destination}</h1>
          </div>
          <div className='mt-4 flex items-center'>
             <DollarSign color="#767676" size={24} strokeWidth={2.5} padd />  
