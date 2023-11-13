@@ -7,33 +7,31 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { useCookies } from 'react-cookie'
 
-export default function CreateAccount() {
+export default function SignIn() {
   let navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword(!showPassword);
   const handleMouseDownPassword = () => setShowPassword(!showPassword);
 
-  const [showPassword2, setShowPassword2] = useState(false);
-  const handleClickShowPassword2 = () => setShowPassword2(!showPassword2);
-  const handleMouseDownPassword2 = () => setShowPassword2(!showPassword2);
-
   const [formData, setFormData] = useState({
     username: "",
     password: "",
-    confirmPassword: "",
-    phoneNumber: "",
   });
   const handleInputChange = (field) => (event) => {
     const value = event.target.value;
     setFormData({ ...formData, [field]: value });
   };
 
+  let [cookies, setCookie] = useCookies(['token'])
+
   const handleSubmit =  () =>{
-    axios.post('/register',
+    axios.post('/login',
         JSON.stringify(formData),
         { headers: { /* Authorization: 'Bearer ' + token */ }, timeout: 10 * 1000 }
     ).then((response) => {
+        setCookie('token', response.data.token)
         navigate('/main')
     }).catch((error) => {
         if (error.code === 'ECONNABORTED') {
@@ -54,17 +52,17 @@ export default function CreateAccount() {
       <Navbar />
       <div className="self-center flex w-[547px] max-w-full flex-col mt-24 mb-32 px-5 my-10">
         <h2 className="text-teal-500 text-center text-2xl font-bold font-['Inter'] drop-shadow-2xl self-stretch ml-0 mr-0 max-w-full">
-          Create an account
+          Sign In
         </h2>
         <div className="self-center flex w-[195] max-w-full items-stretch gap-2.5 mt-1.5">
           <p className="text-black text-center text-xs font-medium">
-            Already have an account?
+            Do not have any account?
           </p>
           <a
             href="#"
             className="text-black text-center text-xs font-medium underline"
           >
-            Sign In
+            Sign Up
           </a>
         </div>
         <label
@@ -131,74 +129,13 @@ export default function CreateAccount() {
             ),
           }}
         />
-        <label
-          htmlFor="confirm-password"
-          className="text-black text-base font-medium max-w-[572px] ml-3 mt-10 self-start ml-2.5"
-        >
-          Confirmed Password
-        </label>
-        <TextField
-          type={showPassword2 ? "text" : "password"}
-          id="confirm-password"
-          value={formData.confirmPassword}
-          onChange={handleInputChange("confirmPassword")}
-          sx={{
-            "& .MuiOutlinedInput-root": {
-              borderRadius: "0.375rem", // Equivalent to Tailwind's rounded
-              backgroundColor: "#E3E3E3", // Background color
-              height: "30px", // Height
-              "& fieldset": {
-                borderColor: "#E3E3E3", // Border color
-              },
-            },
-            marginTop: "1.5rem",
-          }}
-          InputProps={{
-            // <-- This is where the toggle button is added.
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword2}
-                  onMouseDown={handleMouseDownPassword2}
-                >
-                  {showPassword2 ? <VisibilityIcon /> : <VisibilityOffIcon />}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-        <label
-          htmlFor="phone-number"
-          className="text-black text-base font-medium max-w-[572px] ml-3 mt-7 self-start ml-2.5"
-        >
-          Phone Number
-        </label>
-        <TextField
-          type="text"
-          id="tel"
-          value={formData.phoneNumber}
-          onChange={handleInputChange("phoneNumber")}
-          sx={{
-            "& .MuiOutlinedInput-root": {
-              borderRadius: "0.375rem", // Equivalent to Tailwind's rounded
-              backgroundColor: "#E3E3E3", // Background color
-              height: "30px", // Height
-              "& fieldset": {
-                borderColor: "#E3E3E3", // Border color
-              },
-            },
-            marginTop: "1.5rem",
-          }}
-          
-        />
         <button
           type="button"
           onClick={handleSubmit}
           className="justify-center text-black text-center text-base font-medium  rounded bg-[#C2EEF4] self-stretch items-center  mt-6 px-5 py-4 max-w-full"
           style={{ zIndex: 1 }}
         >
-          Continue
+          Start the Journey
         </button>
       </div>
     </section>
