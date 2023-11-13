@@ -28,7 +28,7 @@ export default function SignIn() {
 
   const handleSubmit =  () =>{
     axios.post('/login',
-        JSON.stringify(formData),
+        formData,
         { headers: { /* Authorization: 'Bearer ' + token */ }, timeout: 10 * 1000 }
     ).then((response) => {
         setCookie('token', response.data.token)

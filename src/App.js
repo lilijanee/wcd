@@ -11,7 +11,7 @@ import SignOut from "./Pages/SignOut";
 import axios from 'axios'
 
 export default function App() {
-  axios.defaults.baseURL = 'http://localhost:7164'
+  axios.defaults.baseURL = 'http://localhost:3002'
 
   return (
     <div className="App">
