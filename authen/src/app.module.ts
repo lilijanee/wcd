@@ -1,14 +1,15 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from "./user.entity"
 import { JwtModule } from '@nestjs/jwt';
 
+/*import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';*/
+
 @Module({
-  imports: [AuthModule, UsersModule,
+  imports: [/*AuthModule, UsersModule,*/
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
