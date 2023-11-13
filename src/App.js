@@ -10,7 +10,7 @@ import SignIn from "./Pages/SignIn";
 import axios from 'axios'
 
 export default function App() {
-  axios.defaults.baseURL = 'https://localhost:7164'
+  axios.defaults.baseURL = 'http://localhost:7164'
 
   return (
     <div className="App">
