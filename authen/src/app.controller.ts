@@ -22,19 +22,22 @@ export class AppController {
   async register(
     @Body('username') username: string,
     @Body('tel') tel: string,
-    @Body('password') password: string
+    @Body('password') password: string,
+    @Body('confirmPassword') confirmpassword: string,
   ){
-    
     const hashedPassword = await bcrypt.hash(password, 12);
+    
+    console.log(username,tel,password);
     const user = await this.appService.register({
       username,
       tel,
       password : hashedPassword
     });
 
-    delete user.password;
-
-    return user;
+    const jwt = await this.jwtService.signAsync({id: user.id});
+    return {
+      token : jwt.toString()
+    }
   }
 
   @Post('login')
@@ -50,10 +53,10 @@ export class AppController {
       throw new BadRequestException('no user');
     }
 
-    /*if(!await bcrypt.compare(password, user.password)){
+    if(!await bcrypt.compare(password, user.password)){
       //throw new BadRequestException('invalid credentials');
       throw new BadRequestException('wrong password');
-    }*/
+    }
 
     const jwt = await this.jwtService.signAsync({id: user.id});
 
