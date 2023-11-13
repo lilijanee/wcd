@@ -25,6 +25,9 @@ export class AppController {
     @Body('password') password: string,
     @Body('confirmPassword') confirmpassword: string,
   ){
+    if (!(password === confirmpassword)) {
+      throw new BadRequestException("passwords do not match");
+    }
     const hashedPassword = await bcrypt.hash(password, 12);
     
     console.log(username,tel,password);
