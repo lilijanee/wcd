@@ -50,6 +50,7 @@ export default function CreateAccount() {
         class="w-full h-full bg-scroll left-0 top-0 absolute blur-[5px]"
         alt="bg"
         src={bg}
+        style={{ zIndex: -10000 }}
       />
       <Navbar />
       <div className="self-center flex w-[547px] max-w-full flex-col mt-24 mb-32 px-5 my-10">
