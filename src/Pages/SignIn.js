@@ -59,7 +59,7 @@ export default function SignIn() {
             Do not have any account?
           </p>
           <a
-            href="#"
+            href="/signup"
             className="text-black text-center text-xs font-medium underline"
           >
             Sign Up
