@@ -58,12 +58,11 @@ export default function SignIn() {
           <p className="text-black text-center text-xs font-medium">
             Do not have any account?
           </p>
-          <a
-            href="/signup"
+          <p
             className="text-black text-center text-xs font-medium underline"
-          >
-            Sign Up
-          </a>
+          ><Link to ="/signup">
+            Sign Up</Link>
+              </p>
         </div>
         <label
           htmlFor="username"
