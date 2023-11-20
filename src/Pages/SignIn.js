@@ -66,7 +66,7 @@ export default function SignIn() {
           > 
 
             Sign Up
-          </a>
+          </button>
         </div>
         <label
           htmlFor="username"
